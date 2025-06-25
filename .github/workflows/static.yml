@@ -1,43 +1,1398 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Pillars | Premium Digital Agency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --base-bg: #0B0C10;
+            --card-bg: #1F2833;
+            --text: #C5C6C7;
+            --accent: #66FCF1;
+            --heading: #45A29E;
+            --transition: all 0.4s ease;
+        }
 
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--base-bg);
+            color: var(--text);
+            overflow-x: hidden;
+            min-height: 100vh;
+            position: relative;
+        }
 
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 20% 30%, rgba(31, 40, 51, 0.8), transparent 70%),
+                        radial-gradient(circle at 80% 70%, rgba(69, 162, 158, 0.1), transparent 70%);
+            z-index: -1;
+        }
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+        /* Glassmorphism Effect */
+        .glass {
+            background: rgba(31, 40, 51, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 16px;
+            border: 1px solid rgba(102, 252, 241, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
 
-jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 5%;
+            transition: var(--transition);
+        }
+
+        header.scrolled {
+            background: rgba(11, 12, 16, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            width: 180px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--heading));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--base-bg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-ring {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            animation: rotateRing 20s linear infinite;
+            z-index: -1;
+        }
+
+        .ring-1 {
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 50px var(--accent);
+            animation-delay: 0s;
+        }
+
+        .ring-2 {
+            width: 600px;
+            height: 600px;
+            border: 2px solid var(--heading);
+            box-shadow: 0 0 40px var(--heading);
+            animation-delay: -5s;
+        }
+
+        .ring-3 {
+            width: 700px;
+            height: 700px;
+            border: 1px solid rgba(197, 198, 199, 0.2);
+            box-shadow: 0 0 30px rgba(197, 198, 199, 0.1);
+            animation-delay: -10s;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: white;
+            text-shadow: 0 0 10px rgba(102, 252, 241, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background: var(--accent);
+            color: var(--base-bg);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 20px rgba(102, 252, 241, 0.4);
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 0 30px rgba(102, 252, 241, 0.6);
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 5%;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            max-width: 700px;
+            margin: 20px auto 0;
+            font-size: 1.1rem;
+        }
+
+        /* About Section */
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-content {
+            padding: 40px;
+        }
+
+        .about-content h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .about-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            height: 450px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 252, 241, 0.2), rgba(69, 162, 158, 0.4));
+            z-index: 1;
+        }
+
+       
+        /* Services Gallery Section - Integrated from fix */
+        .services-gallery {
+            padding: 100px 0;
+            background-color: #000;
+        }
+
+        .flex-gallery {
+            display: flex;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel {
+            background-size: cover;
+            background-position: center;
+            flex: 1;
+            transition: flex 0.5s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 30px;
+        }
+
+        .panel:hover {
+            flex: 3;
+        }
+
+        .panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            border-radius: 30px;
+            transition: background 0.5s ease;
+        }
+
+        .panel:hover::before {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .panel-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease 0.2s;
+        }
+
+        .panel:hover .panel-content {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .panel h2.glow {
+            color: white;
+            text-shadow: 0 0 10px var(--accent), 0 0 20px var(--accent);
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .panel p {
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        .section-number {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: rgba(255, 255, 255, 0.2);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        .panel:hover .section-number {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 4rem;
+        }
+
+        .icon-circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(102, 252, 241, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: var(--accent);
+            transition: all 0.5s ease;
+        }
+
+        .panel:hover .icon-circle {
+            transform: scale(1.2);
+            background: rgba(102, 252, 241, 0.3);
+        }
+
+        /* Premium Design Section */
+        .design-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .design-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .design-img {
+            height: 300px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .design-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(102, 252, 241, 0.1), rgba(69, 162, 158, 0.2));
+        }
+
+        .design-content {
+            padding: 20px;
+        }
+
+        .design-content h3 {
+            font-size: 2rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .design-feature {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(102, 252, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        .feature-text h4 {
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        /* Business Setup */
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .pricing-card {
+            width: 350px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+
+        .features-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .features-list li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(197, 198, 199, 0.1);
+        }
+
+        .pricing-card.popular {
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 30px rgba(102, 252, 241, 0.2);
+        }
+
+        .popular-tag {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--accent);
+            color: var(--base-bg);
+            padding: 5px 40px;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Projects Section */
+        .projects {
+            background: url('https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            padding: 150px 5%;
+            text-align: center;
+        }
+
+        .projects::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 12, 16, 0.8);
+        }
+
+        .projects-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-card {
+            height: 300px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(11, 12, 16, 0.9), transparent);
+            z-index: 1;
+        }
+
+        .project-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            z-index: 2;
+            text-align: left;
+        }
+
+        .project-info h3 {
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        /* Results Section */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .stat-text {
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        /* Contact Section */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .contact-form {
+            padding: 40px;
+        }
+
+        .contact-form h3 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            background: rgba(31, 40, 51, 0.5);
+            border: 1px solid rgba(102, 252, 241, 0.1);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .contact-info {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .contact-info h3 {
+            color: white;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(102, 252, 241, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .contact-text {
+            flex: 1;
+        }
+
+        .contact-text h4 {
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 70px 5% 30px;
+            position: relative;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .footer-logo {
+            width: 180px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--heading));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--base-bg);
+            margin-bottom: 20px;
+        }
+
+        .footer-links h4 {
+            color: white;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-links h4::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--text);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            padding-left: 5px;
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(197, 198, 199, 0.1);
+        }
+
+        /* 3D Cursor */
+        .cursor {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--accent);
+            mix-blend-mode: difference;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            transition: transform 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            color: var(--base-bg);
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .cursor.hover {
+            transform: translate(-50%, -50%) scale(1.5);
+            background: rgba(102, 252, 241, 0.8);
+        }
+
+        /* Animations */
+        @keyframes rotateRing {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .about-container, .design-container, .contact-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 90px;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 12, 16, 0.95);
+                flex-direction: column;
+                padding: 20px 0;
+                text-align: center;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
+            .design-images {
+                grid-template-columns: 1fr;
+                margin-bottom: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.3rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.8rem;
+            }
+            
+            .pricing-card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .glow-ring {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .ring-2 {
+                width: 400px;
+                height: 400px;
+            }
+            
+            .ring-3 {
+                width: 500px;
+                height: 500px;
+            }
+            
+            /* Responsive Gallery Fix */
+            .flex-gallery {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .panel {
+                flex: 1 1 100%;
+                height: 300px;
+                margin-bottom: 5px;
+            }
+            
+            .panel-content {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .btn {
+                padding: 12px 25px;
+                font-size: 0.9rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .service-card, .project-card {
+                height: 250px;
+            }
+            
+            .panel h2.glow {
+                font-size: 1.7rem;
+            }
+            
+            .panel p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Cursor -->
+    <div class="cursor"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="logo">FOUR PILLARS</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#services">Services</a>
+                <a href="#services-gallery">Gallery</a>
+                <a href="#business-setup">Business Setup</a>
+                <a href="#website-design">Website Design</a>
+                <a href="#results">Results</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="glow-ring ring-1"></div>
+        <div class="glow-ring ring-2"></div>
+        <div class="glow-ring ring-3"></div>
+        <div class="hero-content fade-in">
+            <h1>Premium Digital Solutions for Luxury Brands</h1>
+            <p>We create bespoke digital experiences that elevate your brand and captivate your audience</p>
+            <a href="#contact" class="btn">Get Started</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="section-title">
+            <h2>About Us</h2>
+            <p>Discover the vision and mission that drive our commitment to excellence</p>
+        </div>
+        <div class="about-container">
+            <div class="about-content glass fade-in">
+                <h3>Our Vision</h3>
+                <p>To become the leading digital agency for luxury brands worldwide, recognized for our innovative solutions and exceptional results.</p>
+                <h3>Our Mission</h3>
+                <p>We empower luxury brands to thrive in the digital landscape by crafting bespoke strategies, stunning designs, and measurable results that exceed expectations.</p>
+                <a href="#contact" class="btn">Join Our Vision</a>
+            </div>
+            <div class="about-image fade-in"></div>
+        </div>
+    </section>
+
+    
+
+    <!-- Services Gallery Section -->
+    <section class="services-gallery" id="services-gallery">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white; text-shadow: 0 0 10px var(--accent);">Our Services Gallery</h2>
+                <p style="color: #ccc;">Interactive showcase of our premium services</p>
+            </div>
+    
+            <div class="flex-gallery">
+                <div class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                    <div class="icon-circle"><i class="fas fa-bullhorn"></i></div>
+                    <div class="section-number">01</div>
+                    <div class="panel-content">
+                        <h2 class="glow">Digital Marketing</h2>
+                        <p>Campaigns & Content</p>
+                    </div>
+                </div>
+                <div class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1547658719-da2b51169166?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1700&q=80');">
+                    <div class="icon-circle"><i class="fas fa-feather"></i></div>
+                    <div class="section-number">02</div>
+                    <div class="panel-content">
+                        <h2 class="glow">Branding</h2>
+                        <p>Brand Visuals</p>
+                    </div>
+                </div>
+                <div class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80');">
+                    <div class="icon-circle"><i class="fas fa-palette"></i></div>
+                    <div class="section-number">03</div>
+                    <div class="panel-content">
+                        <h2 class="glow">Graphic Design</h2>
+                        <p>Visual Identity</p>
+                    </div>
+                </div>
+                <div class="panel" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                    <div class="icon-circle"><i class="fas fa-laptop-code"></i></div>
+                    <div class="section-number">04</div>
+                    <div class="panel-content">
+                        <h2 class="glow">Website Development</h2>
+                        <p>UX & Engineering</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Premium Website Design -->
+    <section id="website-design" class="web-design">
+        <div class="section-title">
+            <h2>Premium Website Design</h2>
+            <p>Digital experiences that reflect the excellence of your brand</p>
+        </div>
+        <div class="design-container">
+            <div class="design-images">
+                <div class="design-img fade-in" style="background: linear-gradient(45deg, #1a2a6c, #b21f1f);"></div>
+                <div class="design-img fade-in" style="background: linear-gradient(45deg, #0f2027, #203a43, #2c5364);"></div>
+            </div>
+            <div class="design-content glass fade-in">
+                <h3>Crafting Digital Masterpieces</h3>
+                <div class="design-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Luxury Aesthetic</h4>
+                        <p>Sophisticated design that embodies elegance and exclusivity</p>
+                    </div>
+                </div>
+                <div class="design-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Fully Responsive</h4>
+                        <p>Seamless experience across all devices and screen sizes</p>
+                    </div>
+                </div>
+                <div class="design-feature">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="feature-text">
+                        <h4>Lightning Fast</h4>
+                        <p>Optimized for speed and performance to enhance user experience</p>
+                    </div>
+                </div>
+                <a href="#contact" class="btn">Request Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Business Setup -->
+    <section id="business-setup" class="business-setup">
+        <div class="section-title">
+            <h2>Business Setup Solutions</h2>
+            <p>Establish your presence in the UAE with our expert guidance</p>
+        </div>
+        <div class="pricing-container">
+            <div class="pricing-card glass fade-in">
+                <h3>Mainland Setup</h3>
+                <div class="price">AED 18,500</div>
+                <ul class="features-list">
+                    <li>100% Ownership</li>
+                    <li>Visa & Residency</li>
+                    <li>DED License</li>
+                    <li>Bank Assistance</li>
+                    <li>VAT Consultation</li>
+                </ul>
+                <a href="#contact" class="btn">Request Free Consultation</a>
+            </div>
+            <div class="pricing-card glass fade-in popular">
+                <div class="popular-tag">POPULAR</div>
+                <h3>Free Zone Setup</h3>
+                <div class="price">AED 5,750</div>
+                <ul class="features-list">
+                    <li>100% Ownership</li>
+                    <li>Visa & Residency</li>
+                    <li>DED License</li>
+                    <li>Bank Assistance</li>
+                    <li>VAT Consultation</li>
+                </ul>
+                <a href="#contact" class="btn">Request Free Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="portfolio" class="projects">
+        <div class="section-title">
+            <h2>Website Projects</h2>
+            <p>Discover our portfolio of premium digital experiences</p>
+        </div>
+        <div class="projects-container">
+            <div class="project-card fade-in" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                <div class="project-info">
+                    <h3>Luxury Fashion E-Commerce</h3>
+                    <p>Premium Shopping Experience</p>
+                </div>
+            </div>
+            <div class="project-card fade-in" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                <div class="project-info">
+                    <h3>High-End Real Estate</h3>
+                    <p>Virtual Property Showcase</p>
+                </div>
+            </div>
+            <div class="project-card fade-in" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1601924994987-69e26d50dc26?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80');">
+                <div class="project-info">
+                    <h3>Exclusive Jewelry Brand</h3>
+                    <p>Elegant Product Presentation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Results -->
+    <section id="results" class="results">
+        <div class="section-title">
+            <h2>Our Results</h2>
+            <p>Delivering excellence that speaks for itself</p>
+        </div>
+        <div class="stats-container">
+            <div class="stat-card glass fade-in">
+                <div class="stat-number" data-target="250">0+</div>
+                <div class="stat-text">Premium Clients</div>
+            </div>
+            <div class="stat-card glass fade-in">
+                <div class="stat-number" data-target="98">0%</div>
+                <div class="stat-text">Client Retention</div>
+            </div>
+            <div class="stat-card glass fade-in">
+                <div class="stat-number" data-target="120">0+</div>
+                <div class="stat-text">Websites Designed</div>
+            </div>
+            <div class="stat-card glass fade-in">
+                <div class="stat-number" data-target="12">0</div>
+                <div class="stat-text">Industry Awards</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <div class="section-title">
+            <h2>Contact Us</h2>
+            <p>Let's discuss how we can elevate your brand</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-form glass fade-in">
+                <h3>Send us a message</h3>
+                <form>
+                    <div class="form-group">
+                        <input type="text" placeholder="Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" placeholder="Company Name" required>
+                    </div>
+                    <div class="form-group">
+                        <select required>
+                            <option value="" disabled selected>Select Service</option>
+                            <option>Strategy & Planning</option>
+                            <option>Content Creation</option>
+                            <option>Community Management</option>
+                            <option>Paid Advertising</option>
+                            <option>Analytics & Insights</option>
+                            <option>Website Design</option>
+                            <option>Business Setup</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Submit Request</button>
+                </form>
+            </div>
+            <div class="contact-info glass fade-in">
+                <h3>Get in touch</h3>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Location</h4>
+                        <p>RAKEZ, UAE</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone-alt"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Phone</h4>
+                        <p>+971 522797168</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Email</h4>
+                        <p>Faisal.Alamir@4pillars.ae</p>
+                    </div>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="contact-text">
+                        <h4>Working Hours</h4>
+                        <p>Sun–Thu, 9AM–6PM</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <div class="footer-logo">FOUR PILLARS</div>
+                <p>Elevating luxury brands with premium digital solutions since 2015.</p>
+            </div>
+            <div class="footer-links">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#services-gallery">Gallery</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">Strategy & Planning</a></li>
+                    <li><a href="#services">Content Creation</a></li>
+                    <li><a href="#services">Website Design</a></li>
+                    <li><a href="#business-setup">Business Setup</a></li>
+                    <li><a href="#services">Analytics & Insights</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Contact Info</h4>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> RAKEZ, UAE</li>
+                    <li><i class="fas fa-phone-alt"></i> +971 522797168</li>
+                    <li><i class="fas fa-envelope"></i> Faisal.Alamir@4pillars.ae</li>
+                    <li><i class="fas fa-clock"></i> Sun–Thu, 9AM–6PM</li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2023 Four Pillars Digital Agency. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 3D Cursor
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.pageX + 'px';
+            cursor.style.top = e.pageY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .service-card, .project-card, .panel').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.classList.add('hover');
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.classList.remove('hover');
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Sticky Header
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        counters.forEach(counter => {
+            const updateCount = () => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText.replace('+', '').replace('%', '');
+                
+                const inc = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc) + (counter.innerText.includes('%') ? '%' : counter.innerText.includes('+') ? '+' : '');
+                    setTimeout(updateCount, 1);
+                } else {
+                    counter.innerText = target + (counter.innerText.includes('%') ? '%' : counter.innerText.includes('+') ? '+' : '');
+                }
+            };
+            
+            const counterObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    updateCount();
+                    counterObserver.unobserve(counter);
+                }
+            }, { threshold: 0.5 });
+            
+            counterObserver.observe(counter);
+        });
+    </script>
+</body>
+</html>
